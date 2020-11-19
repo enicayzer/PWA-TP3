@@ -20,17 +20,23 @@ export class TodoListComponent implements OnInit {
   private filter: State = State.all;
 
   constructor(private todoService: TodoService) {
-    todoService.getTodoListDataObservable().subscribe(tdl => this.data = tdl);
-    this.titre = this.data.label;
+    todoService.getTodoListDataObservable().subscribe(
+      tdl => {
+        this.data = tdl;
+        this.titre = this.data.label;
+        // Pour chaque changement on sauvegarde la liste locale
+        this.sauvegardeLocale();
+      }
+    );
   }
 
   ngOnInit() {
   }
 
-  appendItem(label: string): void{
+  appendItem(label: string): void {
     this.todoService.appendItems(
       {
-        label, isDone:false
+        label, isDone: false
       });
   }
 
@@ -119,6 +125,10 @@ export class TodoListComponent implements OnInit {
     this.data.items.forEach(item => {
       this.removeItem(item);
     });
+  }
+
+  sauvegardeLocale() {
+    localStorage.setItem(this.data.label, JSON.stringify(this.data.items));
   }
 
 }
