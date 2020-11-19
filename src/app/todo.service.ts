@@ -5,10 +5,15 @@ import {TodoItemData} from './dataTypes/TodoItemData';
 
 @Injectable()
 export class TodoService {
+  private labelName = 'TodoList';
 
-  private todoListSubject = new BehaviorSubject<TodoListData>( {label: 'TodoList', items: []} );
+  private todoListSubject = new BehaviorSubject<TodoListData>({ label: this.labelName, items: []} );
 
   constructor() { }
+
+  getLabelName(): string {
+    return this.labelName;
+  }
 
   getTodoListDataObservable(): Observable<TodoListData> {
     return this.todoListSubject.asObservable();

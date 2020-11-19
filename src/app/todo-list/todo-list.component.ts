@@ -18,25 +18,30 @@ export class TodoListComponent implements OnInit {
   private state = State;
   // Par défaut l'état du filtre est à "tous"
   private filter: State = State.all;
+  private todoService: TodoService;
 
-  constructor(private todoService: TodoService) {
-    todoService.getTodoListDataObservable().subscribe(
+  constructor(private myTodoService: TodoService) {
+    this.todoService = myTodoService;
+  }
+
+  ngOnInit() {
+    // On récupère le titre du label pour la clé "localstorage"
+    this.titre = this.todoService.getLabelName();
+    // On charge les données lors de la 1ère init
+    this.chargeLocalDonnees();
+    this.todoService.getTodoListDataObservable().subscribe(
       tdl => {
         this.data = tdl;
-        this.titre = this.data.label;
         // Pour chaque changement on sauvegarde la liste locale
         this.sauvegardeLocale();
       }
     );
   }
 
-  ngOnInit() {
-  }
-
-  appendItem(label: string): void {
+  appendItem(label: string, isDone = false): void {
     this.todoService.appendItems(
       {
-        label, isDone: false
+        label, isDone
       });
   }
 
@@ -129,9 +134,19 @@ export class TodoListComponent implements OnInit {
 
   /*
    * Sauvegarde en local des items avec comme clé le nom du label
-   */ 
+   */
   sauvegardeLocale() {
     localStorage.setItem(this.data.label, JSON.stringify(this.data.items));
+  }
+
+  /*
+   * Chargement des données depuis le local storage
+   */
+  chargeLocalDonnees() {
+    var datas: TodoItemData[] = JSON.parse(localStorage.getItem(this.titre));
+    if (datas != null && datas.length > 0) {
+        datas.forEach(x => this.appendItem(x.label, x.isDone));
+    }
   }
 
 }
