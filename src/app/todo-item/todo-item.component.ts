@@ -47,5 +47,4 @@ export class TodoItemComponent implements OnInit {
     this.todoService.removeItems(this.data);
   }
 
-
 }

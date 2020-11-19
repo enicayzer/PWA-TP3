@@ -18,18 +18,16 @@ export class TodoListComponent implements OnInit {
   private state = State;
   // Par défaut l'état du filtre est à "tous"
   private filter: State = State.all;
-  private todoService: TodoService;
+  private compteurRetour = 0;
+  private dataHistory: TodoListData[] = [];
+  private bloquerHistorique = false;
 
-  constructor(private myTodoService: TodoService) {
-    this.todoService = myTodoService;
-  }
-
-  ngOnInit() {
+  constructor(private todoService: TodoService) {
     // On récupère le titre du label pour la clé "localstorage"
-    this.titre = this.todoService.getLabelName();
+    this.titre = todoService.getLabelName();
     // On charge les données lors de la 1ère init
     this.chargeLocalDonnees();
-    this.todoService.getTodoListDataObservable().subscribe(
+    todoService.getTodoListDataObservable().subscribe(
       tdl => {
         this.data = tdl;
         // Pour chaque changement on sauvegarde la liste locale
@@ -38,11 +36,17 @@ export class TodoListComponent implements OnInit {
     );
   }
 
+  ngOnInit() {
+
+  }
+
   appendItem(label: string, isDone = false): void {
-    this.todoService.appendItems(
-      {
-        label, isDone
-      });
+    if (label != "") {
+      this.todoService.appendItems(
+        {
+          label, isDone
+        });
+    }
   }
 
   setItemDone(item: TodoItemData, done: boolean): void {
@@ -81,7 +85,7 @@ export class TodoListComponent implements OnInit {
   }
 
   compteurItems(): number {
-    return (this.data.items.length - this.data.items.filter(item => item.isDone).length);
+    return (this.items.length - this.items.filter(item => item.isDone).length);
   }
 
 
@@ -116,7 +120,7 @@ export class TodoListComponent implements OnInit {
    */
   supprimeItemCoches() {
     // On récupère la liste des items cochés et on boucle dans un foreach pour supprimer chaque item
-    this.data.items.filter(x => x.isDone).forEach(item => {
+    this.items.filter(x => x.isDone).forEach(item => {
       this.removeItem(item);
     });
   }
@@ -127,27 +131,53 @@ export class TodoListComponent implements OnInit {
   */
   supprimeTousItems() {
     // On récupère la liste des items et on boucle dans un foreach pour supprimer chaque item
-    this.data.items.forEach(item => {
+    this.items.forEach(item => {
       this.removeItem(item);
     });
+  }
+
+  /*
+   * Methode qui annule ou refait un événement de l'utilisateur avec en paramètre isAnnuler = true alors il s'agit d'un annuler sinon refaire
+   */
+  annulerRefaireItems(isAnnuler: boolean) {
+    this.bloquerHistorique = true;
+    this.compteurRetour = isAnnuler ? this.compteurRetour + 1 : this.compteurRetour - 1;
+    if (this.compteurRetour >= 0 && this.dataHistory.length > this.compteurRetour) {
+      var dataModifie = this.dataHistory[this.dataHistory.length - 1 - this.compteurRetour];
+      this.supprimeTousItems();
+      this.appendItemsByData(dataModifie.items);
+    }
+    else {
+      this.compteurRetour = isAnnuler ? this.compteurRetour - 1 : this.compteurRetour + 1;
+    }
+    this.bloquerHistorique = false;
   }
 
   /*
    * Sauvegarde en local des items avec comme clé le nom du label
    */
   sauvegardeLocale() {
-    localStorage.setItem(this.data.label, JSON.stringify(this.data.items));
+    localStorage.setItem(this.label, JSON.stringify(this.items));
+    // On ne sauvegarde pas si on est dans un "refaire" ou "annuler" 
+    if (!this.bloquerHistorique) {
+      this.dataHistory.push(this.data);
+    }
   }
 
   /*
    * Chargement des données depuis le local storage
    */
   chargeLocalDonnees() {
-    var datas: TodoItemData[] = JSON.parse(localStorage.getItem(this.titre));
-    if (datas != null && datas.length > 0) {
-        datas.forEach(x => this.appendItem(x.label, x.isDone));
-    }
+    this.appendItemsByData(JSON.parse(localStorage.getItem(this.titre)));
   }
 
+  /*
+   * On ajoute des items depuis une liste d'items
+   */
+  appendItemsByData(datas: TodoItemData[]): void {
+    if (datas != null && datas.length > 0) {
+      datas.forEach(x => this.appendItem(x.label, x.isDone));
+    }
+  }
 }
 

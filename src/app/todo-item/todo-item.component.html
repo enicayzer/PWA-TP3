@@ -3,6 +3,7 @@
   <input class="toggle"
          type="checkbox"
          name="done"
+         autocomplete="off"
          [checked] ="isDone"
          [ngModel]="isDone"
          (ngModelChange)="isDone = $event" />
