@@ -109,5 +109,17 @@ export class TodoListComponent implements OnInit {
       this.removeItem(item);
     });
   }
+
+
+  /*
+  * Méthode de suppression de tous les items
+  */
+  supprimeTousItems() {
+    // On récupère la liste des items et on boucle dans un foreach pour supprimer chaque item
+    this.data.items.forEach(item => {
+      this.removeItem(item);
+    });
+  }
+
 }
 

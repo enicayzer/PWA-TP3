@@ -1,12 +1,7 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src",
-    "\\src\\app",
-    "\\src\\app\\dataTypes",
-    "\\src\\app\\todo-item",
-    "\\src\\app\\todo-list"
+    "\\src"
   ],
-  "SelectedNode": "\\src\\app\\todo.service.ts",
   "PreviewInSolutionExplorer": false
 }
