@@ -193,9 +193,9 @@ label[for='toggle-all'] {
   content: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="3" fill="transparent" /></svg>');
 }
 
-.todo-list li .toggle:checked:after {
-  content: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="3" fill="transparent" /><path fill="lightgray" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>');
-}
+  .todo-list li .toggle:checked:after {
+    content: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="3" fill="transparent" /><path fill="green" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>');
+  }
 
 .todo-list li label {
   white-space: pre-line;
@@ -289,6 +289,7 @@ label[for='toggle-all'] {
 }
 
 .filters li {
+  cursor:pointer;
   display: inline;
 }
 

@@ -1,36 +1,61 @@
 <section class="todoapp">
   <header class="header">
     <h1>{{label}}</h1>
-    <form>
-      <input  #newTodoInput
-              name        = "newTodoInput"
-              class       = "new-todo"
-              placeholder = "Que faire?"
-              autofocus />
+    <form (submit)="appendItem(newTodoInput.value); newTodoInput.value=''">
+      <input #newTodoInput
+             name="newTodoInput"
+             class="new-todo"
+             placeholder="Que faire?"
+             autofocus />
     </form>
   </header>
   <section class="main">
-    <input  class="toggle-all"
-            type="checkbox"
-            name="toggleAll"
-    />
+    <input class="toggle-all"
+           type="checkbox"
+           name="toggleAll"
+           [ngModel] = "isAllDone()"
+           (ngModelChange) = "toggleAllDone()"
+           />
     <ul class="todo-list">
+      <li *ngFor="let item of items"
+           [class.completed]="item.isDone"
+           [class.editing]="itemCompo.editionMode">
+        <app-todo-item #itemCompo [hidden]="!estItemAffiche(item)" [data]="item"></app-todo-item>
+      </li>
     </ul>
   </section>
-  <footer class="footer">
-    <span class="todo-count"><strong></strong> restantes</span>
-    <ul class="filters">
-      <li>
-        <a class="filterAll">Tous</a>
-      </li>
-      <li>
-        <a class="filterActives">Actifs</a>
-      </li>
-      <li>
-        <a class="filterCompleted">Complétés</a>
-      </li>
-    </ul>
-    <button class="clear-completed">Supprimer cochées</button>
+  <footer *ngIf="items.length > 0">
+    <div class="footer">
+      <span class="todo-count"><strong>{{compteurItems()}}</strong> restantes</span>
+      <ul class="filters">
+        <li>
+          <a class="filterAll" (click)="setFiltre(state.all)" [class.selected]="checkState(state.all)">Tous</a>
+        </li>
+        <li>
+          <a class="filterActives" (click)="setFiltre(state.actived)" [class.selected]="checkState(state.actived)">Actifs</a>
+        </li>
+        <li>
+          <a class="filterCompleted" (click)="setFiltre(state.completed)" [class.selected]="checkState(state.completed)">Complétés</a>
+        </li>
+      </ul>
+      <button class="clear-completed" (click)="supprimeItemCoches()">Supprimer cochées</button>
+    </div>
+    <div class="footer">
+      <button class="clear-completed" (click)="supprimeItemCoches()">Tous effacer</button>
+    </div>
   </footer>
+  
+  
 </section>
-<hr/>
+<hr />
+
+
+<!--<h2>Debug V5</h2>
+<li *ngFor="let item of items">
+  <input type="checkbox" (ngModelChange)="setItemDone(item, $event)" [ngModel]="item.isDone" />
+  <form (submit)="itemLabel(item, newLab.value)">
+    <input type="text" #newLab [ngModel]="item.label" name="label">
+  </form>
+  <input type="button" (click)="removeItem(item)" value="Supprimer" />
+  <pre>{{ item|json }}</pre>
+</li>-->
