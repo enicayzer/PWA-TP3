@@ -127,6 +127,9 @@ export class TodoListComponent implements OnInit {
     });
   }
 
+  /*
+   * Sauvegarde en local des items avec comme clé le nom du label
+   */
   sauvegardeLocale() {
     localStorage.setItem(this.data.label, JSON.stringify(this.data.items));
   }
