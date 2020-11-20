@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild, ElementRef, HostListener, ChangeDetectorRef } from '@angular/core';
 import { TodoListData } from '../dataTypes/TodoListData';
 import { TodoItemData } from '../dataTypes/TodoItemData';
 import { TodoService } from '../todo.service';
 import { State } from "../enums/State";
+
+declare var webkitSpeechRecognition: any;
 
 @Component({
   selector: 'app-todo-list',
@@ -12,7 +14,9 @@ import { State } from "../enums/State";
 
 export class TodoListComponent implements OnInit {
 
+  @ViewChild('searchKey', { static: false }) searchKey: ElementRef;
   @Input() private data: TodoListData;
+
   private titre: string;
   // Utilisation d'un Enum pour les états des filtres (tous, actif, complete)
   private state = State;
@@ -21,8 +25,10 @@ export class TodoListComponent implements OnInit {
   private compteurRetour = 0;
   private dataHistory: TodoListData[] = [];
   private bloquerHistorique = false;
+  private isSpeechOpen = false;
+  
 
-  constructor(private todoService: TodoService) {
+  constructor(private todoService: TodoService, private cdr: ChangeDetectorRef) {
     // On récupère le titre du label pour la clé "localstorage"
     this.titre = todoService.getLabelName();
     // On charge les données lors de la 1ère init
@@ -34,6 +40,8 @@ export class TodoListComponent implements OnInit {
         this.sauvegardeLocale();
       }
     );
+
+    
   }
 
   ngOnInit() {
@@ -48,6 +56,35 @@ export class TodoListComponent implements OnInit {
         });
     }
   }
+
+  /*
+   * Création d'une instance de reconnaissance vocale puis récupération de la valeur 
+   */
+  reconnaissanceVocale(): void {
+    var self = this;
+    var recognition = new webkitSpeechRecognition();
+    recognition.lang = 'fr-FR';
+    recognition.interimResults = false;
+    recognition.continous = false;
+    recognition.start();
+    this.isSpeechOpen = true;
+    recognition.onresult = function(e) {
+      var texteParler = e.results[0][0].transcript;
+      self.appendItem(texteParler);
+      self.isSpeechOpen = false;
+      recognition.stop();
+      // Obligatoire pour obtenir les changements
+      self.cdr.detectChanges();
+    };
+    recognition.stop = function (e) {
+      self.isSpeechOpen = false;
+    };
+    recognition.onerror = function (e) {
+      self.isSpeechOpen = false;
+      recognition.stop();
+    }
+  }
+
 
   setItemDone(item: TodoItemData, done: boolean): void {
     this.todoService.setItemsDone(done, item);

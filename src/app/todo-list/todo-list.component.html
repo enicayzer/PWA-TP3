@@ -1,26 +1,30 @@
 <section class="todoapp">
   <header class="header">
     <h1>{{label}}</h1>
-    <form (submit)="appendItem(newTodoInput.value); newTodoInput.value=''">
+    <form  (submit)="appendItem(newTodoInput.value); newTodoInput.value=''">
       <input #newTodoInput
              name="newTodoInput"
              class="new-todo"
              autocomplete="off"
              placeholder="Que faire?"
              autofocus />
+
     </form>
+   
   </header>
   <section class="main">
+    <button (click)="reconnaissanceVocale()">
+      <span [class.speech-open]="isSpeechOpen" class="speech"></span>
+    </button>
     <input class="toggle-all"
            type="checkbox"
            name="toggleAll"
-           [ngModel] = "isAllDone()"
-           (ngModelChange) = "toggleAllDone()"
-           />
+           [ngModel]="isAllDone()"
+           (ngModelChange)="toggleAllDone()" />
     <ul class="todo-list">
       <li *ngFor="let item of items"
-           [class.completed]="item.isDone"
-           [class.editing]="itemCompo.editionMode">
+          [class.completed]="item.isDone"
+          [class.editing]="itemCompo.editionMode">
         <app-todo-item #itemCompo [hidden]="!estItemAffiche(item)" [data]="item"></app-todo-item>
       </li>
     </ul>
