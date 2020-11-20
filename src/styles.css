@@ -333,6 +333,13 @@ html .clear-completed:active {
     text-decoration: underline;
   }
 
+.bloquer {
+  text-decoration: line-through;
+  color: #d9d9d9;
+  pointer-events: none;
+}
+
+
 .info {
   margin: 65px auto 0;
   color: #bfbfbf;

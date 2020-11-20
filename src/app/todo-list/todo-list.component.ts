@@ -26,7 +26,7 @@ export class TodoListComponent implements OnInit {
   private dataHistory: TodoListData[] = [];
   private bloquerHistorique = false;
   private isSpeechOpen = false;
-  
+
 
   constructor(private todoService: TodoService, private cdr: ChangeDetectorRef) {
     // On récupère le titre du label pour la clé "localstorage"
@@ -41,15 +41,18 @@ export class TodoListComponent implements OnInit {
       }
     );
 
-    
   }
 
   ngOnInit() {
 
   }
 
-  appendItem(label: string, isDone = false): void {
+  appendItem(label: string, isDone = false, auto = false): void {
     if (label != "") {
+      if (!auto) {
+        // Réinitialisation du compteur historique 
+        this.compteurRetour = 0;
+      }
       this.todoService.appendItems(
         {
           label, isDone
@@ -68,9 +71,9 @@ export class TodoListComponent implements OnInit {
     recognition.continous = false;
     recognition.start();
     this.isSpeechOpen = true;
-    recognition.onresult = function(e) {
+    recognition.onresult = function (e) {
       var texteParler = e.results[0][0].transcript;
-      self.appendItem(texteParler);
+      self.appendItem(texteParler, false, true);
       self.isSpeechOpen = false;
       recognition.stop();
       // Obligatoire pour obtenir les changements
@@ -153,6 +156,13 @@ export class TodoListComponent implements OnInit {
   }
 
   /*
+   * On récupère si il y a une ou plusieurs coche
+   */
+  isItemCoches(): boolean {
+    return this.items.filter(x => x.isDone).length > 0;
+  }
+
+  /*
    * Méthode de suppression des items cochés
    */
   supprimeItemCoches() {
@@ -173,20 +183,24 @@ export class TodoListComponent implements OnInit {
     });
   }
 
+  isAnnuler() {
+    return this.dataHistory.length > this.compteurRetour + 1;
+  }
+
+  isRefaire() {
+    return this.compteurRetour > 0;
+  }
+
+
   /*
    * Methode qui annule ou refait un événement de l'utilisateur avec en paramètre isAnnuler = true alors il s'agit d'un annuler sinon refaire
    */
   annulerRefaireItems(isAnnuler: boolean) {
     this.bloquerHistorique = true;
     this.compteurRetour = isAnnuler ? this.compteurRetour + 1 : this.compteurRetour - 1;
-    if (this.compteurRetour >= 0 && this.dataHistory.length > this.compteurRetour) {
-      var dataModifie = this.dataHistory[this.dataHistory.length - 1 - this.compteurRetour];
-      this.supprimeTousItems();
-      this.appendItemsByData(dataModifie.items);
-    }
-    else {
-      this.compteurRetour = isAnnuler ? this.compteurRetour - 1 : this.compteurRetour + 1;
-    }
+    var dataModifie = this.dataHistory[this.dataHistory.length - 1 - this.compteurRetour];
+    this.supprimeTousItems();
+    this.appendItemsByData(dataModifie.items);
     this.bloquerHistorique = false;
   }
 
@@ -213,7 +227,7 @@ export class TodoListComponent implements OnInit {
    */
   appendItemsByData(datas: TodoItemData[]): void {
     if (datas != null && datas.length > 0) {
-      datas.forEach(x => this.appendItem(x.label, x.isDone));
+      datas.forEach(x => this.appendItem(x.label, x.isDone, true));
     }
   }
 }

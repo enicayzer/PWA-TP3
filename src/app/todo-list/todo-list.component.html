@@ -1,7 +1,7 @@
 <section class="todoapp">
   <header class="header">
     <h1>{{label}}</h1>
-    <form  (submit)="appendItem(newTodoInput.value); newTodoInput.value=''">
+    <form (submit)="appendItem(newTodoInput.value); newTodoInput.value=''">
       <input #newTodoInput
              name="newTodoInput"
              class="new-todo"
@@ -10,7 +10,7 @@
              autofocus />
 
     </form>
-   
+
   </header>
   <section class="main">
     <button (click)="reconnaissanceVocale()">
@@ -43,15 +43,15 @@
           <a class="filterCompleted" (click)="setFiltre(state.completed)" [class.selected]="checkState(state.completed)">Complétés</a>
         </li>
       </ul>
-      <button class="clear-completed" (click)="supprimeItemCoches()">Supprimer cochées</button>
+      <button class="clear-completed" [hidden]="!isItemCoches()" (click)="supprimeItemCoches()">Supprimer cochées</button>
     </div>
     <div class="footer">
-      <button class="clear-completed" (click)="annulerRefaireItems(true)">Annuler</button>
-      <button class="clear-completed" (click)="annulerRefaireItems(false)">Refaire</button>
+      <button class="clear-completed" [class.bloquer]="!isAnnuler()" (click)="annulerRefaireItems(true)">Annuler</button>
+      <button class="clear-completed" [class.bloquer]="!isRefaire()" (click)="annulerRefaireItems(false)">Refaire</button>
       <button class="clear-completed" (click)="supprimeTousItems()">Tous effacer</button>
     </div>
   </footer>
-  
+
 </section>
 <hr />
 
