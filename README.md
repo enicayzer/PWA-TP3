@@ -1,5 +1,9 @@
 # PWA-TP3
 
+
+Utilisation de ngx-qrcode2 et ng2-qrcode-reader
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

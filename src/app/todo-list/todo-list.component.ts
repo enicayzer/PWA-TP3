@@ -27,6 +27,11 @@ export class TodoListComponent implements OnInit {
   private bloquerHistorique = false;
   private isSpeechOpen = false;
 
+  //QR Code
+  private title = 'app';
+  private elementTypeQRCode = 'canvas';
+  private valueQRCode = '';
+
 
   constructor(private todoService: TodoService, private cdr: ChangeDetectorRef) {
     // On récupère le titre du label pour la clé "localstorage"
@@ -230,5 +235,14 @@ export class TodoListComponent implements OnInit {
       datas.forEach(x => this.appendItem(x.label, x.isDone, true));
     }
   }
+
+/* Génération du QRCode*/
+
+  genererQRCode(): void {
+    this.valueQRCode = JSON.stringify(this.items);
+  }
+
+
+
 }
 

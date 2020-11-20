@@ -56,6 +56,20 @@
 <hr />
 
 
+<div style="text-align:center">
+  <input type="button" (click)="genererQRCode()" value="Générer QR Code" />
+
+  <ngx-qrcode [elementType]="elementTypeQRCode"
+              [value]="valueQRCode"
+              cssClass="aclass"
+              errorCorrectionLevel="L">
+  </ngx-qrcode>
+
+</div>
+
+
+
+
 <!--<h2>Debug V5</h2>
 <li *ngFor="let item of items">
   <input type="checkbox" (ngModelChange)="setItemDone(item, $event)" [ngModel]="item.isDone" />
