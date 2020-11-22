@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Connexion</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modalService.dismissAll()">
+    <span aria-hidden="true">×</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="email">Adresse mail</label>
+      <input type="text"
+             id="email"
+             class="form-control"
+             formControlName="email">
+    </div>
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input type="password"
+             id="password"
+             class="form-control"
+             formControlName="password">
+    </div>
+    <button class="btn btn-primary"
+            type="submit"
+            [disabled]="signinForm.invalid">
+      Connexion
+    </button>
+  </form>
+  <p class="text-danger">{{ errorMessage }}</p>
+</div>
+<div class="modal-footer">
+</div>

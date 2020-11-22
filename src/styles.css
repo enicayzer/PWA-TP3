@@ -121,32 +121,33 @@ label[for='toggle-all'] {
   display: none;
 }
 
-.speech, .speech-open{
-    position:absolute;
-    top:-50px;
-    right:15px;
-    width:35px;
-    height:40px;
-    background:url("assets/img/micro.png") no-repeat;
-    background-size: 30px 30px;
-    cursor:pointer;
+.speech, .speech-open {
+  position: absolute;
+  top: -50px;
+  right: 15px;
+  width: 35px;
+  height: 40px;
+  background: url("assets/img/micro.png") no-repeat;
+  background-size: 30px 30px;
+  cursor: pointer;
 }
+
 .speech-open {
   background: url("assets/img/micro-open.png") no-repeat;
   background-size: 40px 40px;
-  top:-55px;
-  right:20px;
+  top: -55px;
+  right: 20px;
 }
 
-  .toggle-all {
-    position: absolute;
-    top: -55px;
-    left: -12px;
-    width: 60px;
-    height: 34px;
-    text-align: center;
-    border: none; /* Mobile Safari */
-  }
+.toggle-all {
+  position: absolute;
+  top: -55px;
+  left: -12px;
+  width: 60px;
+  height: 34px;
+  text-align: center;
+  border: none; /* Mobile Safari */
+}
 
   .toggle-all:before {
     content: '❯';
@@ -265,7 +266,8 @@ label[for='toggle-all'] {
 
 .footer {
   color: #777;
-  padding: 10px 15px;
+  padding: 20px 15px 25px 15px;
+  ;
   height: 20px;
   text-align: center;
   border-top: 1px solid #e6e6e6;
@@ -323,11 +325,11 @@ label[for='toggle-all'] {
         border-color: rgba(175, 47, 47, 0.2);
       }
 
-      .filters li .bloquer {
-        text-decoration: line-through;
-        color: #d9d9d9;
-        pointer-events: none;
-      }
+    .filters li .bloquer {
+      text-decoration: line-through;
+      color: #d9d9d9;
+      pointer-events: none;
+    }
 
 .clear-completed,
 html .clear-completed:active {
@@ -344,10 +346,10 @@ html .clear-completed:active {
   }
 
 
-.title-qrcode{
-    font-size:18px;
-    text-align:center;
-    line-height:200px;
+.title-qrcode {
+  font-size: 18px;
+  text-align: center;
+  line-height: 200px;
 }
 
 .info {
@@ -372,7 +374,7 @@ html .clear-completed:active {
       text-decoration: underline;
     }
 
-    /* Drag and Drop */
+/* Drag and Drop */
 .uploadfile {
   height: 200px;
   width: 80%;
@@ -380,6 +382,7 @@ html .clear-completed:active {
   border: 2px dashed #1C9ADB;
   border-radius: 10px;
 }
+
   .uploadfile:hover {
     cursor: pointer;
     background-color: #9ecbec !important;
@@ -390,10 +393,12 @@ html .clear-completed:active {
   background-color: #9ecbec;
   opacity: 0.8;
 }
+
 .hoverDrop {
   background-color: #f5fcff;
   opacity: 1;
 }
+
 .aclass img {
   width: 240px;
 }

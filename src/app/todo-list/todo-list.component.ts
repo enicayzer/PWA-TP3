@@ -2,8 +2,11 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild, ElementRe
 import { TodoListData } from '../dataTypes/TodoListData';
 import { TodoItemData } from '../dataTypes/TodoItemData';
 import { TodoService } from '../todo.service';
+import { AuthService } from '../firebase.authservice';
 import { State } from "../enums/State";
 import qrcodeParser from 'qrcode-parser';
+import firebase from 'firebase';
+import Datasnapshot = firebase.database.DataSnapshot;
 
 declare var webkitSpeechRecognition: any;
 
@@ -33,17 +36,34 @@ export class TodoListComponent implements OnInit {
   private elementTypeQRCode = 'img';
   private valueQRCode = '';
 
+  //Auth
+  private isAuth = false;
+  private bloqueSaveFirebase = false;
 
-  constructor(private todoService: TodoService, private cdr: ChangeDetectorRef) {
+
+  constructor(private authService: AuthService, private todoService: TodoService, private cdr: ChangeDetectorRef) {
     // On récupère le titre du label pour la clé "localstorage"
     this.titre = todoService.getLabelName();
     // On charge les données lors de la 1ère init
     this.chargeLocalDonnees();
+
+    this.authService.isAuthentifier().subscribe(
+      user => {
+        // On charge les données de l'user 
+        if (!this.isAuth && user) {
+          this.getFirebaseData();
+        }
+        this.isAuth = user;
+      }
+    );
+
     todoService.getTodoListDataObservable().subscribe(
       tdl => {
         this.data = tdl;
         // Pour chaque changement on sauvegarde la liste locale
         this.sauvegardeLocale();
+        // Sauvegarde dans le firebase si connecté
+        this.saveFirebaseData();
       }
     );
 
@@ -269,5 +289,27 @@ export class TodoListComponent implements OnInit {
     this.uploadDragAndDrop(event.target.files);
   }
 
+
+  /** Utilisation de firebase **/
+  /* Sauvegarde des données dans firebase*/
+  saveFirebaseData() {
+    if (this.isAuth && !this.bloqueSaveFirebase) {
+      var userId = firebase.auth().currentUser.uid;
+      firebase.database().ref("/users/" + userId + "/" + this.titre).set(this.items);
+    }
+  }
+
+  /* Récupération des données dans firebase*/
+  getFirebaseData() {
+    var userId = firebase.auth().currentUser.uid;
+    const ref = firebase.database().ref("/users/" + userId + "/" + this.titre);
+    ref.once('value', (data: Datasnapshot) => {
+      var datas = data.val() ? data.val() : [];
+      this.bloqueSaveFirebase = true;
+      this.appendItemsByData(datas);
+      this.bloqueSaveFirebase = false;
+      this.cdr.detectChanges();
+    });
+  }
 }
 

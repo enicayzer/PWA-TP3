@@ -1,3 +1,4 @@
+<app-header></app-header>
 <section class="todoapp">
   <header class="header">
     <h1>{{label}}</h1>
@@ -48,13 +49,13 @@
     <div class="footer">
       <ul class="filters">
         <li>
-          <a [class.bloquer]="!isRefaire()" (click)="annulerRefaireItems(false)">Refaire</a>
-        </li>
-        <li>
           <a [class.bloquer]="!isAnnuler()" (click)="annulerRefaireItems(true)">Annuler</a>
         </li>
         <li>
-          <a class="" (click)="supprimerLocalStorage()">Effacer le stockage local</a>
+          <a [class.bloquer]="!isRefaire()" (click)="annulerRefaireItems(false)">Refaire</a>
+        </li>
+        <li>
+          <a class="" (click)="supprimerLocalStorage()">Effacer localstorage</a>
         </li>
       </ul>
       <button class="clear-completed" (click)="supprimeTousItems()">Tout effacer</button>
@@ -80,12 +81,12 @@
 
 
 
-  <!--<h2>Debug V5</h2>
-  <li *ngFor="let item of items">
-    <input type="checkbox" (ngModelChange)="setItemDone(item, $event)" [ngModel]="item.isDone" />
-    <form (submit)="itemLabel(item, newLab.value)">
-      <input type="text" #newLab [ngModel]="item.label" name="label">
-    </form>
-    <input type="button" (click)="removeItem(item)" value="Supprimer" />
-    <pre>{{ item|json }}</pre>
-  </li>-->
+<!--<h2>Debug V5</h2>
+<li *ngFor="let item of items">
+  <input type="checkbox" (ngModelChange)="setItemDone(item, $event)" [ngModel]="item.isDone" />
+  <form (submit)="itemLabel(item, newLab.value)">
+    <input type="text" #newLab [ngModel]="item.label" name="label">
+  </form>
+  <input type="button" (click)="removeItem(item)" value="Supprimer" />
+  <pre>{{ item|json }}</pre>
+</li>-->
