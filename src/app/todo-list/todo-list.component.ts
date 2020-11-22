@@ -3,6 +3,7 @@ import { TodoListData } from '../dataTypes/TodoListData';
 import { TodoItemData } from '../dataTypes/TodoItemData';
 import { TodoService } from '../todo.service';
 import { State } from "../enums/State";
+import qrcodeParser from 'qrcode-parser';
 
 declare var webkitSpeechRecognition: any;
 
@@ -29,7 +30,7 @@ export class TodoListComponent implements OnInit {
 
   //QR Code
   private title = 'app';
-  private elementTypeQRCode = 'canvas';
+  private elementTypeQRCode = 'img';
   private valueQRCode = '';
 
 
@@ -86,13 +87,16 @@ export class TodoListComponent implements OnInit {
     };
     recognition.stop = function (e) {
       self.isSpeechOpen = false;
+      // Obligatoire pour obtenir les changements
+      self.cdr.detectChanges();
     };
+    recognition.end = function (e) {
+      recognition.stop();
+    }
     recognition.onerror = function (e) {
-      self.isSpeechOpen = false;
       recognition.stop();
     }
   }
-
 
   setItemDone(item: TodoItemData, done: boolean): void {
     this.todoService.setItemsDone(done, item);
@@ -228,6 +232,13 @@ export class TodoListComponent implements OnInit {
   }
 
   /*
+   * Suppression du local storage 
+   */
+  supprimerLocalStorage() {
+    localStorage.removeItem(this.titre);
+  }
+
+  /*
    * On ajoute des items depuis une liste d'items
    */
   appendItemsByData(datas: TodoItemData[]): void {
@@ -236,13 +247,27 @@ export class TodoListComponent implements OnInit {
     }
   }
 
-/* Génération du QRCode*/
-
+  /* Génération du QRCode*/
   genererQRCode(): void {
     this.valueQRCode = JSON.stringify(this.items);
   }
 
+  /* Upload du QRCode en drag & drop*/
+  uploadDragAndDrop(event): void {
+    qrcodeParser(event[0]).then(x => {
+      this.appendItemsByData(JSON.parse(x.data));
+      // Obligatoire pour obtenir les changements
+      this.cdr.detectChanges();
+    }).catch(function (err) {
+      // En cas d'erreur de lecture du QR Code on affiche ce message
+      alert("Impossible de décoder ce QR Code");
+    });
+  }
 
+  /* Upload du QR Code en cliquant sur la zone */
+  uploadQRCode(event): void {
+    this.uploadDragAndDrop(event.target.files);
+  }
 
 }
 

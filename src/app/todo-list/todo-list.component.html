@@ -46,36 +46,46 @@
       <button class="clear-completed" [hidden]="!isItemCoches()" (click)="supprimeItemCoches()">Supprimer cochées</button>
     </div>
     <div class="footer">
-      <button class="clear-completed" [class.bloquer]="!isAnnuler()" (click)="annulerRefaireItems(true)">Annuler</button>
-      <button class="clear-completed" [class.bloquer]="!isRefaire()" (click)="annulerRefaireItems(false)">Refaire</button>
-      <button class="clear-completed" (click)="supprimeTousItems()">Tous effacer</button>
+      <ul class="filters">
+        <li>
+          <a [class.bloquer]="!isRefaire()" (click)="annulerRefaireItems(false)">Refaire</a>
+        </li>
+        <li>
+          <a [class.bloquer]="!isAnnuler()" (click)="annulerRefaireItems(true)">Annuler</a>
+        </li>
+        <li>
+          <a class="" (click)="supprimerLocalStorage()">Effacer le stockage local</a>
+        </li>
+      </ul>
+      <button class="clear-completed" (click)="supprimeTousItems()">Tout effacer</button>
     </div>
   </footer>
 
 </section>
 <hr />
 
-
 <div style="text-align:center">
   <input type="button" (click)="genererQRCode()" value="Générer QR Code" />
-
   <ngx-qrcode [elementType]="elementTypeQRCode"
               [value]="valueQRCode"
               cssClass="aclass"
               errorCorrectionLevel="L">
   </ngx-qrcode>
+</div>
 
+<div class="uploadfile" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadDragAndDrop($event)">
+  <div class="title-qrcode">Cliquer ou Drop une image QR Code </div>
+  <input hidden type="file" #fileInput (change)="uploadQRCode($event)" />
 </div>
 
 
 
-
-<!--<h2>Debug V5</h2>
-<li *ngFor="let item of items">
-  <input type="checkbox" (ngModelChange)="setItemDone(item, $event)" [ngModel]="item.isDone" />
-  <form (submit)="itemLabel(item, newLab.value)">
-    <input type="text" #newLab [ngModel]="item.label" name="label">
-  </form>
-  <input type="button" (click)="removeItem(item)" value="Supprimer" />
-  <pre>{{ item|json }}</pre>
-</li>-->
+  <!--<h2>Debug V5</h2>
+  <li *ngFor="let item of items">
+    <input type="checkbox" (ngModelChange)="setItemDone(item, $event)" [ngModel]="item.isDone" />
+    <form (submit)="itemLabel(item, newLab.value)">
+      <input type="text" #newLab [ngModel]="item.label" name="label">
+    </form>
+    <input type="button" (click)="removeItem(item)" value="Supprimer" />
+    <pre>{{ item|json }}</pre>
+  </li>-->
