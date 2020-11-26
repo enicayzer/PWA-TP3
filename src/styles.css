@@ -36,6 +36,10 @@ body {
   font-weight: 300;
 }
 
+.header-up{
+    padding-bottom:30px;
+}
+
 button,
 input[type="checkbox"] {
   outline: none;

@@ -2,9 +2,14 @@
   "ExpandedNodes": [
     "",
     "\\src",
+    "\\src\\app",
+    "\\src\\app\\firebase-signin",
+    "\\src\\app\\firebase-signup",
+    "\\src\\app\\header",
+    "\\src\\app\\todo-list",
     "\\src\\assets",
-    "\\src\\assets\\img"
+    "\\src\\environments"
   ],
-  "SelectedNode": "\\src\\styles.css",
+  "SelectedNode": "\\src\\app\\firebase-signup\\firebase-signup.component.ts",
   "PreviewInSolutionExplorer": false
 }
