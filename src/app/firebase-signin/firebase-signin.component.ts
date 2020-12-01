@@ -28,6 +28,10 @@ export class SigninComponent implements OnInit {
     });
   }
 
+
+  /* 
+   * Authentification de l'utilisateur
+   */
   onSubmit() {
     const email = this.signinForm.get('email').value;
     const password = this.signinForm.get('password').value;

@@ -9,6 +9,9 @@ export class AuthService {
   constructor() {
   }
 
+  /*
+   * Vérifie si l'utilisateur est authentifié
+   */
   isAuthentifier(): Observable<boolean> {
     return Observable.create(obs => {
       return firebase.auth().onAuthStateChanged(
@@ -19,6 +22,9 @@ export class AuthService {
   }
 
 
+  /*
+   * Création d'un nouvel utilisateur
+   */
   createNewUser(email: string, password: string) {
     return new Promise(
       (resolve, reject) => {
@@ -34,6 +40,9 @@ export class AuthService {
     );
   }
 
+  /*
+   * Connexion de l'utilisateur
+   */
   signInUser(email: string, password: string) {
     return new Promise(
       (resolve, reject) => {
@@ -49,6 +58,10 @@ export class AuthService {
     );
   }
 
+
+  /*
+   * Déconnexion de l'utilisateur
+   */
   signOutUser() {
     return new Promise(
       (resolve, reject) => {

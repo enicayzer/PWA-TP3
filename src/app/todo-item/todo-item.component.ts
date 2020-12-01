@@ -43,6 +43,9 @@ export class TodoItemComponent implements OnInit {
     this.todoService.setItemsDone(done, this.data);
   }
 
+  /*
+   * Supprime l'élément
+   */
   destroy() {
     this.todoService.removeItems(this.data);
   }

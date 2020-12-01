@@ -3,13 +3,11 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\firebase-signin",
-    "\\src\\app\\firebase-signup",
-    "\\src\\app\\header",
+    "\\src\\app\\todo-item",
     "\\src\\app\\todo-list",
     "\\src\\assets",
     "\\src\\environments"
   ],
-  "SelectedNode": "\\src\\app\\firebase-signup\\firebase-signup.component.ts",
+  "SelectedNode": "\\src\\app\\todo-list\\todo-list.component.ts",
   "PreviewInSolutionExplorer": false
 }

@@ -26,19 +26,23 @@ export class TodoListComponent implements OnInit {
   private state = State;
   // Par défaut l'état du filtre est à "tous"
   private filter: State = State.all;
-  private compteurRetour = 0;
+
+  // Historique
+  private compteurRetour: number = 0;
   private dataHistory: TodoListData[] = [];
-  private bloquerHistorique = false;
-  private isSpeechOpen = false;
+  private bloquerHistorique: boolean = false;
+
+  // Reconnaissance vocale
+  private isSpeechOpen: boolean = false;
 
   //QR Code
-  private title = 'app';
-  private elementTypeQRCode = 'img';
-  private valueQRCode = '';
+  private title: string = 'app';
+  private elementTypeQRCode: string = 'img';
+  private valueQRCode: string = '';
 
-  //Auth
-  private isAuth = false;
-  private bloqueSaveFirebase = false;
+  //Auth firebase
+  private isAuth: boolean = false;
+  private bloqueSaveFirebase: boolean = false;
 
 
   constructor(private authService: AuthService, private todoService: TodoService, private cdr: ChangeDetectorRef) {
@@ -91,6 +95,11 @@ export class TodoListComponent implements OnInit {
    */
   reconnaissanceVocale(): void {
     var self = this;
+    // Si micro déjà ouvert
+    if (this.isSpeechOpen) {
+      this.isSpeechOpen = false;
+      return;
+    }
     var recognition = new webkitSpeechRecognition();
     recognition.lang = 'fr-FR';
     recognition.interimResults = false;
@@ -212,10 +221,16 @@ export class TodoListComponent implements OnInit {
     });
   }
 
+  /*
+   * Méthode qui vérifie si on peut annuler 
+   */
   isAnnuler() {
     return this.dataHistory.length > this.compteurRetour + 1;
   }
 
+  /*
+   * Méthode qui vérifie si on peut effectuer un refaire
+   */ 
   isRefaire() {
     return this.compteurRetour > 0;
   }

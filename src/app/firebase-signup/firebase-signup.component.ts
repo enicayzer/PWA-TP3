@@ -27,6 +27,9 @@ export class SignupComponent implements OnInit {
     });
   }
 
+  /*
+   * Méthode de création d'un nouvel utilisateur
+   */
   onSubmit() {
     const email = this.signupForm.get('email').value;
     const password = this.signupForm.get('password').value;
