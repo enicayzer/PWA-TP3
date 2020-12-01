@@ -230,7 +230,7 @@ export class TodoListComponent implements OnInit {
 
   /*
    * Méthode qui vérifie si on peut effectuer un refaire
-   */ 
+   */
   isRefaire() {
     return this.compteurRetour > 0;
   }
@@ -293,7 +293,10 @@ export class TodoListComponent implements OnInit {
 
   /* Génération du QRCode*/
   genererQRCode(): void {
-    this.valueQRCode = JSON.stringify(this.items);
+    // Seulement si il existe au moins 1 item
+    if (this.items.length > 0) {
+      this.valueQRCode = JSON.stringify(this.items);
+    }
   }
 
   /* Upload du QRCode en drag & drop*/

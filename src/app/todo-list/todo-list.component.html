@@ -66,7 +66,13 @@
 <hr />
 
 <div style="text-align:center">
-  <input type="button" (click)="genererQRCode()" value="Générer QR Code" />
+
+  <button class="btn btn-primary"
+          type="button"
+          (click)="genererQRCode()">
+    Générer QR Code
+  </button>
+
   <ngx-qrcode [elementType]="elementTypeQRCode"
               [value]="valueQRCode"
               cssClass="aclass"
