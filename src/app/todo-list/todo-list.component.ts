@@ -260,6 +260,15 @@ export class TodoListComponent implements OnInit {
   }
 
   /*
+   * Remise à zéro de l'historique lors de l'authentification avec firebase
+   */
+  remiseAZeroHistorique() {
+    this.dataHistory = [];
+    this.sauvegardeLocale();
+    this.compteurRetour = 0;
+  }
+
+  /*
    * Chargement des données depuis le local storage
    */
   chargeLocalDonnees() {
@@ -321,7 +330,9 @@ export class TodoListComponent implements OnInit {
     ref.once('value', (data: Datasnapshot) => {
       var datas = data.val() ? data.val() : [];
       this.bloqueSaveFirebase = true;
+      this.supprimeTousItems();
       this.appendItemsByData(datas);
+      this.remiseAZeroHistorique();
       this.bloqueSaveFirebase = false;
       this.cdr.detectChanges();
     });
