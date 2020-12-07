@@ -8,6 +8,9 @@ git clone https://github.com/enicayzer/PWA-TP3
 - npm install
 - npm start
 
+Accès en local via http://localhost:8080 (Car déployer en même temps sur Heroku)
+Accès en ligne https://pwa-projet.herokuapp.com/
+
 ## Informations
 
 Packages utilisés : 
