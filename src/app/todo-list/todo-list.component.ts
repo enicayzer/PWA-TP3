@@ -33,12 +33,12 @@ export class TodoListComponent implements OnInit {
   private bloquerHistorique: boolean = false;
 
   // Reconnaissance vocale
-  private isSpeechOpen: boolean = false;
+  isSpeechOpen: boolean = false;
 
   //QR Code
   private title: string = 'app';
-  private elementTypeQRCode: string = 'img';
-  private valueQRCode: string = '';
+  elementTypeQRCode: string = 'img';
+  valueQRCode: string = '';
 
   //Auth firebase
   private isAuth: boolean = false;

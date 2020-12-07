@@ -14,7 +14,7 @@ export class SigninComponent implements OnInit {
   errorMessage: string;
 
   constructor(private formBuilder: FormBuilder,
-    private authService: AuthService, private modalService: NgbModal) {
+    private authService: AuthService, public modalService: NgbModal) {
   }
 
   ngOnInit() {
