@@ -34,6 +34,7 @@ export class TodoListComponent implements OnInit {
 
   // Reconnaissance vocale
   isSpeechOpen: boolean = false;
+  recognition: any = null;
 
   //QR Code
   title: string = 'app';
@@ -98,34 +99,39 @@ export class TodoListComponent implements OnInit {
     var self = this;
     // Si micro déjà ouvert
     if (this.isSpeechOpen) {
-      this.isSpeechOpen = false;
+      this.recognition.stop();
       return;
     }
-    var recognition = new webkitSpeechRecognition();
-    recognition.lang = 'fr-FR';
-    recognition.interimResults = false;
-    recognition.continous = false;
-    recognition.start();
-    this.isSpeechOpen = true;
-    recognition.onresult = function (e) {
+    this.parametresReconnaissanceVocale();
+    this.recognition.onresult = function (e) {
       var texteParler = e.results[0][0].transcript;
       self.appendItem(texteParler, false, true);
       self.isSpeechOpen = false;
-      recognition.stop();
+      this.stop();
       // Obligatoire pour obtenir les changements
       self.cdr.detectChanges();
     };
-    recognition.stop = function (e) {
+    this.recognition.stop = function (e) {
       self.isSpeechOpen = false;
       // Obligatoire pour obtenir les changements
       self.cdr.detectChanges();
     };
-    recognition.end = function (e) {
-      recognition.stop();
+    this.recognition.end = function (e) {
+      this.stop();
     }
-    recognition.onerror = function (e) {
-      recognition.stop();
+    this.recognition.onerror = function (e) {
+      this.stop();
     }
+  }
+
+  /* Affectation des paramètres reconnaissance vocale */
+  parametresReconnaissanceVocale() {
+    this.recognition = new webkitSpeechRecognition();
+    this.recognition.lang = 'fr-FR';
+    this.recognition.interimResults = false;
+    this.recognition.continous = true;
+    this.recognition.start();
+    this.isSpeechOpen = true;
   }
 
   setItemDone(item: TodoItemData, done: boolean): void {
