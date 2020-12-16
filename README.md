@@ -4,18 +4,23 @@
 
 ## Installation et lancement
 
-git clone https://github.com/enicayzer/PWA-TP3
-- npm install
-- npm start
+Prérequis 
 
-Accès en local via http://localhost:8080 (Car déployer en même temps sur Heroku)
-Accès en ligne https://pwa-projet.herokuapp.com/
+npm install -g @angular/cli
+
+- git clone https://github.com/enicayzer/PWA-TP3
+- cd PWA-TP3
+- npm install
+- ng serve (ne pas faire de "npm start" car utilisé pour herokuapp)
+
+- Accès en local via http://localhost:4200
+- Accès en ligne https://pwa-projet.herokuapp.com/
 
 ## Informations
 
 Packages utilisés : 
-- ngx-qrcode2 (génération d'un QR Code');
-- qrcode-parser (lecture d'un QR Code depuis une image');
+- ngx-qrcode2 (génération d'un QR Code);
+- qrcode-parser (lecture d'un QR Code depuis une image);
 - bootstrap (popup d'authentification);
 - firebase.
 
