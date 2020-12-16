@@ -69,13 +69,22 @@
 
   <button class="btn btn-primary"
           type="button"
+          [hidden]="estCacherQRCode()"
           (click)="genererQRCode()">
     Générer QR Code
+  </button>
+
+  <button class="btn btn-primary"
+          type="button"
+          [hidden]="!estCacherQRCode()"
+          (click)="cacherQRCode()">
+    Cacher QR Code
   </button>
 
   <ngx-qrcode [elementType]="elementTypeQRCode"
               [value]="valueQRCode"
               cssClass="aclass"
+              [hidden]="!estCacherQRCode()"
               errorCorrectionLevel="L">
   </ngx-qrcode>
 </div>

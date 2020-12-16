@@ -36,9 +36,10 @@ export class TodoListComponent implements OnInit {
   isSpeechOpen: boolean = false;
 
   //QR Code
-  private title: string = 'app';
+  title: string = 'app';
   elementTypeQRCode: string = 'img';
   valueQRCode: string = '';
+  qrCodeEstAfficher: boolean = false;
 
   //Auth firebase
   private isAuth: boolean = false;
@@ -291,11 +292,22 @@ export class TodoListComponent implements OnInit {
     }
   }
 
+
+/* Cacher QR Code */
+  estCacherQRCode(): boolean {
+    return this.qrCodeEstAfficher;
+  }
+
+  cacherQRCode(): void {
+    this.qrCodeEstAfficher = false;
+  }
+
   /* Génération du QRCode*/
   genererQRCode(): void {
     // Seulement si il existe au moins 1 item
     if (this.items.length > 0) {
       this.valueQRCode = JSON.stringify(this.items);
+      this.qrCodeEstAfficher = true;
     }
   }
 
